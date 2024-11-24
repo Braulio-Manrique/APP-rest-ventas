@@ -37,4 +37,14 @@ public ResponseEntity<Category>  guardarCategoria(@RequestBody Category category
 
 
 }
+@PutMapping("/{id}")
+public ResponseEntity<Category>  actualizarCategoria(@PathVariable Integer id,  @RequestBody Category category) {
+    Category categoryActual = categoryService.findById(id).orElseThrow(()
+            -> new ResourceNotFoundException("La Categoria con ID" + id + " no existe")) ;
+    if(category == null){
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+    category.setCategoryid(id);
+    return new ResponseEntity<>(categoryService.save(category), HttpStatus.OK);
+}
 }
